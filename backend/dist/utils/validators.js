@@ -1,5 +1,5 @@
 import { body, validationResult } from "express-validator";
-const validate = (validations) => {
+export const validate = (validations) => {
     return async (req, res, next) => {
         for (let validation of validations) {
             const result = await validation.run(req);
@@ -14,10 +14,15 @@ const validate = (validations) => {
         }
     };
 };
-const signupValidator = [
-    body("Name").notEmpty().withMessage("Name is Required"),
+export const loginValidator = [
     body("Email").trim().isEmail().withMessage("Email is Required"),
-    body("Password").notEmpty().trim().isLength({ min: 8 }).withMessage("Password should contail at least 8 Character"),
+    body("Password")
+        .trim()
+        .isLength({ min: 6 })
+        .withMessage("Password should contail at least 6 Character"),
 ];
-export { validate, signupValidator };
+export const signupValidator = [
+    body("Name").notEmpty().withMessage("Name is Required"),
+    ...loginValidator,
+];
 //# sourceMappingURL=validators.js.map
