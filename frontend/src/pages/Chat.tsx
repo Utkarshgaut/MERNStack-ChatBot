@@ -1,9 +1,9 @@
 import React from "react";
 
-const Header = () => {
+const Chat = () => {
     return <div>
-        Header
+        Chat
     </div>;
 };
 
-export default Header;
+export default Chat;
