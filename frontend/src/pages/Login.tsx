@@ -2,13 +2,24 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import CustomizedInput from "../components/shared/CustomizedInput";
 import { IoIosLogIn } from "react-icons/io";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
-    const handelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const auth = useAuth()
+    const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const Email = formData.get("Email");
-        const Password = formData.get("Password");
+        const Email = formData.get("Email") as string ;
+        const Password = formData.get("Password") as string ;
+        try {
+            toast.loading("Signing In",{id: "login"});
+            await auth?.login(Email,Password);
+            toast.success("Successfully SignedIn to the MERN-GPT",{id: "login"});
+        } catch (error) {
+            console.log(error);            
+            toast.error("Signing In Failed",{id: "login"});
+        }
         console.log(Email,Password);
         
     }
