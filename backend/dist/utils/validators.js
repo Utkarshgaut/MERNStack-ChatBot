@@ -6,23 +6,26 @@ export const validate = (validations) => {
             if (!result.isEmpty()) {
                 break;
             }
-            const errors = validationResult(req);
-            if (errors.isEmpty()) {
-                return next();
-            }
-            return res.status(422).json({ errors: errors.array() });
         }
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            return next();
+        }
+        return res.status(422).json({ errors: errors.array() });
     };
 };
 export const loginValidator = [
-    body("Email").trim().isEmail().withMessage("Email is Required"),
-    body("Password")
+    body("email").trim().isEmail().withMessage("Email is required"),
+    body("password")
         .trim()
         .isLength({ min: 6 })
-        .withMessage("Password should contail at least 6 Character"),
+        .withMessage("Password should contain atleast 6 characters"),
 ];
 export const signupValidator = [
-    body("Name").notEmpty().withMessage("Name is Required"),
+    body("name").notEmpty().withMessage("Name is required"),
     ...loginValidator,
+];
+export const chatCompletionValidator = [
+    body("message").notEmpty().withMessage("Message  is required"),
 ];
 //# sourceMappingURL=validators.js.map
